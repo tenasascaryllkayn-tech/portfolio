@@ -1,1 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caryll Kayn · Portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config={
+  theme:{
+    extend:{
+      colors:{
+        rose:'#FF6B8B', blush:'#FFE6EA', lavender:'#EDE5FF', lilac:'#B4A0E5',
+        mint:'#D4F5E9', honey:'#FFE8C2', cocoa:'#634238', soft:'#7A6660', pagebg:'#FFF5F7',
+        sky:'#E0F2FE', skytxt:'#0284C7', done:'#10B981', progress:'#F59E0B'
+      },
+      fontFamily:{ sans:['Quicksand','sans-serif'], display:['Playfair Display','serif'] }
+    }
+  }
+}
+</script>
+<style>
+body{background:#FFF5F7;font-family:'Quicksand',sans-serif;color:#634238}
+h1,h2,h3{font-family:'Playfair Display',serif}
+
+.progress-container{position:fixed;top:0;left:0;width:100%;height:4px;background:#FFE6EA;z-index:99999}
+.progress-bar{height:4px;background:linear-gradient(90deg,#FF6B8B,#B4A0E5);width:5%;transition:width .12s ease-out}
+
+.floating-arrow{position:fixed;right:1rem;bottom:1.5rem;z-index:99998}
+.fabtn{width:3rem;height:3rem;border-radius:50%;background:linear-gradient(135deg,#FF6B8B,#B4A0E5);color:white;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(255,107,139,.3);text-decoration:none;transition:all .25s}
+.fabtn:hover{transform:scale(1.08)}
+@keyframes bounceD{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes bounceU{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.fabtn.down .fa{animation:bounceD 1.4s infinite}
+.fabtn.up .fa{animation:bounceU 1.4s infinite}
+
+.logo{width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#FF6B8B,#B4A0E5);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+.nav-link{color:#7A6660;font-weight:600;transition:all .2s}
+.nav-link:hover{color:#FF6B8B}
+.nav-cta{background:#FF6B8B;color:white;border-radius:9999px;padding:.4rem 1rem;font-weight:600}
+.nav-cta:hover{background:#FF5273;color:white}
+
+.card{background:white;border-radius:1.5rem;box-shadow:0 2px 12px rgba(255,107,139,.07);padding:2rem;border:1px solid #FFE6EA;margin-bottom:2rem}
+.fade{opacity:0;transform:translateY(1.2rem);transition:all .5s ease-out}
+.fade.visible{opacity:1;transform:translateY(0)}
+.skill-card{border-radius:1rem;padding:1.5rem;transition:all .25s;border:1px solid transparent}
+.skill-card:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(255,107,139,.1)}
+.link-see{display:inline-flex;align-items:center;gap:.4rem;color:#FF6B8B;font-weight:600;text-decoration:none;margin-top:.4rem;transition:gap .2s}
+.link-see:hover{gap:.7rem;color:#B4A0E5}
+.tag{border-radius:9999px;padding:.4rem 1rem;font-weight:600;display:inline-block;margin:.25rem;font-size:.85rem}
+.btn-main{background:linear-gradient(135deg,#FF6B8B,#FF8FA3);border-radius:9999px;padding:.9rem 2rem;color:white;font-weight:600;display:inline-block;text-decoration:none;box-shadow:0 4px 12px rgba(255,107,139,.25);transition:transform .2s}
+.btn-main:hover{transform:translateY(-2px)}
+.link-cta{display:inline-flex;align-items:center;gap:.5rem;color:#FF6B8B;font-weight:600;text-decoration:none;margin-top:1rem;transition:gap .2s}
+.link-cta:hover{gap:.8rem;color:#B4A0E5}
+
+.photo-wrap{width:8rem;height:8rem;border-radius:50%;background:linear-gradient(135deg,#FFE6EA,#EDE5FF);display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden;border:3px solid white;box-shadow:0 4px 12px rgba(255,107,139,.15)}
+.photo-wrap img{width:100%;height:100%;object-fit:cover}
+
+/* === PIE CHART STYLES === */
+.pie-wrap{position:relative;width:240px;height:240px;margin:0 auto}
+.pie-circle{width:100%;height:100%;border-radius:50%;background:conic-gradient(
+  #FF6B8B 0% 30%,  /* Content & Data */
+  #10B981 30% 55%, /* Education */
+  #0284C7 55% 75%, /* Trust & Safety */
+  #F59E0B 75% 90%, /* Creative */
+  #B4A0E5 90% 100% /* Comm & Admin */
+);transform:rotate(-90deg);transition:transform 1.2s cubic-bezier(.4,0,.2,1);opacity:0}
+.pie-wrap.animated .pie-circle{transform:rotate(0deg);opacity:1}
+.pie-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 3px #FFF5F7}
+.pie-legend{max-w-sm;margin:1.5rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.85rem}
+.legend-swatch{width:.9rem;height:.9rem;border-radius:.25rem;flex-shrink:0}
+
+.schedule-block{border-radius:1rem;padding:1.25rem;margin-top:1rem}
+.schedule-primary{background:#FFF5F7;border:1px solid #FFE6EA}
+.schedule-unavailable{background:#FFF8E6;border:1px solid #FFE8C2}
+.schedule-free{background:#ECFDF5;border:1px solid #D1FAE5}
+
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem 0;opacity:0;transform:translateX(-4px);transition:all .4s ease-out}
+.check-item.visible{opacity:1;transform:translateX(0)}
+.icon-check{flex-shrink:0;width:1.5rem;height:1.5rem;border-radius:50%;background:#ECFDF5;display:flex;align-items:center;justify-content:center;color:#10B981;border:1.5px solid rgba(16,185,129,.25)}
+.icon-check .fa{animation:popIn .4s ease-out}
+@keyframes popIn{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.icon-progress{flex-shrink:0;width:1.5rem;height:1.5rem;border-radius:50%;background:#FFFBEB;display:flex;align-items:center;justify-content:center;color:#F59E0B;border:1.5px solid rgba(245,158,11,.25)}
+.icon-progress .fa{animation:pulseBeat 1.5s infinite ease-in-out}
+@keyframes pulseBeat{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+
+.timeline{position:relative;padding-left:1.8rem}
+.timeline::before{content:'';position:absolute;left:.4rem;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#FF6B8B,#B4A0E5)}
+.tl-item{position:relative;margin-bottom:1.8rem;opacity:0;transform:translateX(-.8rem);transition:all .5s ease-out}
+.tl-item.visible{opacity:1;transform:translateX(0)}
+.tl-dot{position:absolute;left:-1.8rem;top:.25rem;width:.9rem;height:.9rem;border-radius:50%;background:linear-gradient(135deg,#FF6B8B,#B4A0E5);box-shadow:0 0 0 3px #FFF5F7}
+
+.dropdown-wrap{border:1px solid #FFE6EA;border-radius:1rem;overflow:hidden;margin-top:1.5rem;background:#FFF9FA}
+.dropdown-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:transparent;border:none;cursor:pointer;text-align:left;font-family:inherit}
+.dropdown-btn:hover{background:rgba(255,230,234,.4)}
+.dropdown-icon{width:2rem;height:2rem;border-radius:50%;background:#FFE6EA;color:#FF6B8B;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.dropdown-open .dropdown-icon{transform:rotate(180deg);background:#FF6B8B;color:white}
+.dropdown-content{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(0.4,0,0.2,1)}
+.dropdown-inner{padding:0 1.25rem 1.25rem;opacity:0;transform:translateY(-8px);transition:all .4s ease-out .1s}
+.dropdown-open .dropdown-inner{opacity:1;transform:translateY(0)}
+
+.form-row{margin-bottom:1rem}
+.form-label{display:block;font-weight:600;color:#634238;margin-bottom:.4rem;font-size:.9rem}
+.form-input{width:100%;padding:.85rem 1rem;border-radius:.75rem;border:1px solid #FFE6EA;background:white;font-family:inherit;font-size:.95rem;transition:border .2s,box-shadow .2s}
+.form-input:focus{outline:none;border-color:#FF6B8B;box-shadow:0 0 0 3px rgba(255,107,139,.15)}
+.form-checkbox{display:flex;align-items:flex-start;gap:.6rem;margin-top:.25rem}
+.form-checkbox input{margin-top:.25rem;accent-color:#FF6B8B}
+.form-submit{width:100%;padding:.9rem;border-radius:9999px;background:linear-gradient(135deg,#FF6B8B,#B4A0E5);color:white;font-weight:600;font-size:1rem;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:.5rem}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,107,139,.25)}
+
+.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-w-md;margin:0 auto 2rem}
+.contact-link{display:flex;flex-direction:column;align-items:center;gap:.3rem;text-decoration:none;transition:all .25s}
+.contact-link:hover{transform:translateY(-3px)}
+.contact-icon{width:3rem;height:3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E)}
+.messenger{background:linear-gradient(135deg,#0099FF,#0066CC)}
+.instagram{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF)}
+.email{background:linear-gradient(135deg,#FF6B8B,#B4A0E5)}
+.contact-label{font-size:.75rem;color:#7A6660;font-weight:500}
+.note-text{font-size:.8rem;color:#7A6660;margin-top:1rem;text-align:center}
+
+@media(max-width:640px){
+  .floating-arrow{right:.75rem;bottom:1.25rem}
+  .fabtn{width:2.6rem;height:2.6rem}
+  .card{padding:1.5rem}
+  .contact-grid{gap:.75rem}
+  .contact-icon{width:2.7rem;height:2.7rem}
+  .pie-wrap{width:200px;height:200px}
+  .pie-legend{grid-template-columns:1fr;gap:.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-container"><div class="progress-bar" id="pgBar"></div></div>
+
+<div class="floating-arrow">
+  <a href="#contact-bottom" class="fabtn down" id="faBtn" aria-label="Scroll">
+    <i class="fa fa-chevron-down"></i>
+  </a>
+</div>
+
+<nav class="sticky top-3 z-50 bg-white/85 backdrop-blur-sm px-4 py-3 flex items-center justify-between rounded-2xl mx-3 shadow-sm border border-blush/60">
+  <a href="#top" class="flex items-center gap-2">
+    <div class="logo">CK</div>
+    <span class="font-display font-bold text-lg text-cocoa">Caryll Kayn</span>
+  </a>
+  <div class="hidden sm:flex items-center gap-5 text-sm">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#skills" class="nav-link font-bold text-rose">What I Do</a>
+    <a href="#journey" class="nav-link">Journey</a>
+    <a href="#contact-bottom" class="nav-cta">Connect 💌</a>
+  </div>
+  <button class="sm:hidden text-rose text-xl" id="menuBtn">
+    <i class="fa fa-bars"></i>
+  </button>
+</nav>
+
+<div id="mMenu" class="fixed inset-0 bg-black/40 z-[100] hidden">
+  <div class="bg-white rounded-t-3xl absolute bottom-0 left-0 right-0 p-6 shadow-xl">
+    <div class="flex justify-between items-center mb-4">
+      <span class="font-bold text-lg text-cocoa">Menu</span>
+      <button id="closeMenu" class="text-soft text-xl"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="space-y-3">
+      <a href="#about" class="block py-2 text-rose font-bold">🌸 About Me</a>
+      <a href="#skills" class="block py-2 text-cocoa font-medium">✨ What I Can Do</a>
+      <a href="#journey" class="block py-2 text-cocoa font-medium">🌿 My Journey</a>
+      <a href="#contact-bottom" class="block py-2 text-rose font-bold">💌 Get In Touch</a>
+    </div>
+  </div>
+</div>
+
+<section id="top" class="px-5 pt-10 pb-8 text-center fade">
+  <div class="photo-wrap mb-4">
+    <img src="https://via.placeholder.com/140/FFE6EA/FF6B8B?text=📷" alt="Caryll Kayn">
+  </div>
+  <h1 class="text-3xl md:text-4xl font-bold text-cocoa mb-3">Hi, I'm Caryll Kayn 💛</h1>
+  <p class="text-lg text-soft max-w-md mx-auto mb-6">Content editor · trust & safety · educator · creator — ready to bring care and consistency to your team</p>
+  <div class="flex flex-wrap justify-center gap-2 mb-8">
+    <span class="tag bg-sky text-skytxt">🛡️ Trust & Safety</span>
+    <span class="tag bg-lavender text-lilac">📝 Content Editing</span>
+    <span class="tag bg-mint text-emerald-600">🧸 Education</span>
+    <span class="tag bg-honey text-amber-600">🎨 Creative</span>
+  </div>
+  <a href="#contact-bottom" class="btn-main">Work With Me ✨</a>
+</section>
+
+<section id="skills" class="px-5 pb-4 fade visible">
+  <div class="card max-w-2xl mx-auto">
+    <p class="text-lilac font-semibold text-sm mb-1">✨ What I Can Do For You</p>
+    <h2 class="text-2xl font-bold text-cocoa mb-6">How I Can Help</h2>
+    <div class="space-y-4">
+
+      <div class="skill-card bg-sky/40">
+        <h3 class="font-bold text-lg text-cocoa">🛡️ Content Moderation & Trust & Safety</h3>
+        <p class="text-sm text-soft mt-1">Review images & videos against community guidelines — with empathy, consistency, and care.</p>
+        <a href="trust-safety.html" class="link-see">See Sample Guidelines <i class="fa fa-chevron-right"></i></a>
+      </div>
+
+      <div class="skill-card bg-blush/40">
+        <h3 class="font-bold text-lg text-cocoa">📝 Content Editing & Data Management</h3>
+        <p class="text-sm text-soft mt-1">Verify, align, and maintain reference & legal data. Accuracy & timeliness handled with precision.</p>
+        <a href="content-data.html" class="link-see">See Editing Work <i class="fa fa-chevron-right"></i></a>
+      </div>
+
+      <div class="skill-card bg-mint/40">
+        <h3 class="font-bold text-lg text-cocoa">🧸 Early Childhood & Inclusive Education</h3>
+        <p class="text-sm text-soft mt-1">Lesson planning, UDL, trauma-informed care — every child understood and supported.</p>
+        <a href="education.html" class="link-see">Explore My Education Heart <i class="fa fa-chevron-right"></i></a>
+      </div>
+
+      <div class="skill-card bg-honey/40">
+        <h3 class="font-bold text-lg text-cocoa">🎨 Visual & Print-Ready Design</h3>
+        <p class="text-sm text-soft mt-1">Nature-inspired stickers, layouts, warm designs — 300 DPI, CMYK, ready to print.</p>
+        <a href="creative-design.html" class="link-see">View My Art & Layouts <i class="fa fa-chevron-right"></i></a>
+      </div>
+    </div>
+
+    <!-- 📊 SKILL PIE CHART -->
+    <div class="mt-8 mb-6 text-center">
+      <p class="text-lilac font-semibold text-sm mb-4">📊 My Skills At A Glance</p>
+      <div class="pie-wrap" id="skillPie">
+        <div class="pie-circle"></div>
+        <div class="pie-center">
+          <div class="text-center">
+            <p class="font-bold text-cocoa text-lg">5+</p>
+            <p class="text-xs text-soft">Years</p>
+          </div>
+        </div>
+      </div>
+      <div class="pie-legend">
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#FF6B8B"></span>
+          <span class="text-sm text-cocoa">📝 Content & Data — 30%</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#10B981"></span>
+          <span class="text-sm text-cocoa">🧸 Education — 25%</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#0284C7"></span>
+          <span class="text-sm text-cocoa">🛡️ Trust & Safety — 20%</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#F59E0B"></span>
+          <span class="text-sm text-cocoa">🎨 Creative — 15%</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background:#B4A0E5"></span>
+          <span class="text-sm text-cocoa">💬 Admin & Comm — 10%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⏰ SCHEDULE — DROPDOWN -->
+    <div class="dropdown-wrap" id="scheduleDD">
+      <button class="dropdown-btn" onclick="toggleDD('scheduleDD')">
+        <span class="font-semibold text-cocoa">⏰ My Availability & Schedule</span>
+        <span class="dropdown-icon"><i class="fa fa-chevron-down"></i></span>
+      </button>
+      <div class="dropdown-content">
+        <div class="dropdown-inner pt-3">
+          <div class="schedule-block schedule-primary mb-3">
+            <p class="font-semibold text-rose mb-2">🌍 Primary Work Hours</p>
+            <p class="text-sm text-cocoa"><strong>9:10 PM – 6:00 AM PHT</strong> = 10:00 AM – 6:00 PM ET</p>
+          </div>
+          
+          <div class="schedule-block schedule-unavailable mb-3">
+            <p class="font-semibold text-amber-600 mb-2">📚 Unavailable — Class Times</p>
+            <p class="text-sm text-cocoa">Tuesday 7:00 PM – 9:00 PM PHT</p>
+            <p class="text-sm text-cocoa">Saturday 1:30 PM – 4:00 PM PHT</p>
+          </div>
+          
+          <div class="schedule-block schedule-free">
+            <p class="font-semibold text-emerald-600 mb-3">✨ Free / Flexible Time</p>
+            <div class="space-y-2" id="scheduleList">
+              <div class="check-item">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <p class="text-sm text-cocoa font-medium">Mon · Wed · Thu · Fri — 6:00 AM – 9:00 PM PHT</p>
+              </div>
+              <div class="check-item">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <p class="text-sm text-cocoa font-medium">Tuesday — 6:00 AM – 7:00 PM PHT</p>
+              </div>
+              <div class="check-item">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <p class="text-sm text-cocoa font-medium">Saturday — 4:00 PM onwards</p>
+              </div>
+              <div class="check-item">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <p class="text-sm text-cocoa font-medium">Sunday — All day!</p>
+              </div>
+            </div>
+            <p class="text-xs text-soft mt-3">Replies within 24 hours · Confirmed in advance 💛</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✨ LINK TO CONTACT -->
+    <div class="text-center mt-6">
+      <a href="#contact-bottom" class="link-cta">Ready to start? Get in touch <i class="fa fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="px-5 pb-4 fade">
+  <div class="card max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold text-cocoa mb-2">🌸 A Little About Me</h2>
+    <p class="text-soft mb-3">Just the essentials — click below to know more 💛</p>
+    
+    <div class="dropdown-wrap" id="aboutDD">
+      <button class="dropdown-btn" onclick="toggleDD('aboutDD')">
+        <span class="font-semibold text-cocoa">Read my story</span>
+        <span class="dropdown-icon"><i class="fa fa-chevron-down"></i></span>
+      </button>
+      <div class="dropdown-content">
+        <div class="dropdown-inner">
+          <p class="text-soft leading-relaxed mt-2 mb-3">
+            I'm Caryll Kayn — based in beautiful Iloilo City, Philippines. I've spent my career caring: nurturing learners, keeping spaces safe, ensuring data is accurate, designing with warmth.
+          </p>
+          <p class="text-soft leading-relaxed">Work should be thoughtful, thorough, and kind. I show up on time, pay attention, and care about doing things right. I'd love to grow alongside you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey" class="px-5 pb-4 fade">
+  <div class="card max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold text-cocoa mb-2">🌿 My Journey</h2>
+    <p class="text-soft mb-3">Where I've walked — expand to see my path</p>
+    
+    <div class="dropdown-wrap" id="journeyDD">
+      <button class="dropdown-btn" onclick="toggleDD('journeyDD')">
+        <span class="font-semibold text-cocoa">View my experience</span>
+        <span class="dropdown-icon"><i class="fa fa-chevron-down"></i></span>
+      </button>
+      <div class="dropdown-content">
+        <div class="dropdown-inner pt-2">
+          <div class="timeline">
+            <div class="tl-item">
+              <span class="tl-dot"></span>
+              <p class="text-xs font-bold text-rose mb-1">2022 – Present</p>
+              <h3 class="font-bold text-cocoa">Content Editor</h3>
+              <p class="text-sm text-soft">Reed Elsevier Philippines · Verify & maintain legal/reference data; ensure accuracy across global teams</p>
+            </div>
+            <div class="tl-item">
+              <span class="tl-dot"></span>
+              <p class="text-xs font-bold text-skytxt mb-1">2019 – 2022</p>
+              <h3 class="font-bold text-cocoa">Content Moderator / Trust & Safety</h3>
+              <p class="text-sm text-soft">Conectys · Review visual & written content; apply guidelines with empathy; help make the internet safer</p>
+            </div>
+            <div class="tl-item">
+              <span class="tl-dot"></span>
+              <p class="text-xs font-bold text-teal-600 mb-1">2022</p>
+              <h3 class="font-bold text-cocoa">Admin Assistant</h3>
+              <p class="text-sm text-soft">Assumption Iloilo Educational Foundation · Nonprofit coordination</p>
+            </div>
+            <div class="tl-item">
+              <span class="tl-dot"></span>
+              <p class="text-xs font-bold text-lilac mb-1">2019</p>
+              <h3 class="font-bold text-cocoa">Early Childhood Educator</h3>
+              <p class="text-sm text-soft">Overseas · Montessori-inspired care, nurturing curiosity</p>
+            </div>
+            <div class="tl-item">
+              <span class="tl-dot"></span>
+              <p class="text-xs font-bold text-amber-600 mb-1">2016 – 2019</p>
+              <h3 class="font-bold text-cocoa">Academic Tutor</h3>
+              <p class="text-sm text-soft">Bridges Tutorial Center · Personalized learning, adapting to each learner</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 pt-4 border-t border-blush/50">
+      <h3 class="font-bold text-lg text-cocoa mb-2">🎓 Education</h3>
+      <p class="text-sm text-soft mb-3">My learning path — still growing 💛</p>
+      
+      <div class="dropdown-wrap" id="eduDD">
+        <button class="dropdown-btn" onclick="toggleDD('eduDD')">
+          <span class="font-semibold text-cocoa">View my qualifications</span>
+          <span class="dropdown-icon"><i class="fa fa-chevron-down"></i></span>
+        </button>
+        <div class="dropdown-content">
+          <div class="dropdown-inner">
+            <div class="space-y-1 mt-2" id="eduList">
+              <div class="check-item" data-status="progress">
+                <div class="icon-progress"><i class="fa fa-spinner fa-pulse"></i></div>
+                <div>
+                  <p class="font-semibold text-cocoa">Master of Education (Early Childhood)</p>
+                  <p class="text-xs text-soft">West Visayas State University · In Progress</p>
+                </div>
+              </div>
+              <div class="check-item" data-status="done">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-semibold text-cocoa">Bachelor of Education</p>
+                  <p class="text-xs text-soft">Completed · 2016</p>
+                </div>
+              </div>
+              <div class="check-item" data-status="done">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-semibold text-cocoa">Diploma in Early Childhood Education</p>
+                  <p class="text-xs text-soft">Completed · 2018</p>
+                </div>
+              </div>
+              <div class="check-item" data-status="done">
+                <div class="icon-check"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-semibold text-cocoa">TESOL Certificate</p>
+                  <p class="text-xs text-soft">Completed · 2018</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact-bottom" class="px-5 pb-12 fade">
+  <div class="card max-w-2xl mx-auto text-center">
+    <h2 class="text-xl font-bold text-cocoa mb-2">💌 Let's Connect</h2>
+    <p class="text-soft mb-6">Reach out however feels most natural to you 💛</p>
+
+    <!-- CONTACT APPS FIRST -->
+    <div class="contact-grid">
+      <a href="https://wa.me/63XXXXXXXXX" target="_blank" class="contact-link" title="WhatsApp">
+        <div class="contact-icon whatsapp"><i class="fa fa-whatsapp"></i></div>
+        <span class="contact-label">WhatsApp</span>
+      </a>
+      <a href="https://m.me/yourusername" target="_blank" class="contact-link" title="Messenger">
+        <div class="contact-icon messenger"><i class="fa fa-commenting"></i></div>
+        <span class="contact-label">Messenger</span>
+      </a>
+      <a href="https://instagram.com/yourusername" target="_blank" class="contact-link" title="Instagram">
+        <div class="contact-icon instagram"><i class="fa fa-instagram"></i></div>
+        <span class="contact-label">Instagram</span>
+      </a>
+      <a href="mailto:your@email.com" class="contact-link" title="Email">
+        <div class="contact-icon email"><i class="fa fa-envelope"></i></div>
+        <span class="contact-label">Email</span>
+      </a>
+    </div>
+
+    <!-- INTAKE FORM BELOW APPS -->
+    <div class="text-left max-w-md mx-auto mt-4">
+      <h3 class="font-semibold text-cocoa mb-3 text-center">Or send a message directly</h3>
+      <form action="https://formspree.io/f/your-form-id" method="POST">
+        <div class="form-row">
+          <label class="form-label" for="name">Your Name</label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="What should I call you?" required>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="contact-email">Your Email</label>
+          <input type="email" id="contact-email" name="email" class="form-input" placeholder="Where to reply?" required>
+        </div>
+        <div class="form-row">
+          <label class="form-label">What are you interested in?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <label class="form-checkbox">
+              <input type="checkbox" name="service_editing">
+              <span class="text-sm text-soft">📝 Content Editing & Data</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="service_safety">
+              <span class="text-sm text-soft">🛡️ Trust & Safety</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="service_education">
+              <span class="text-sm text-soft">🧸 Education</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="service_creative">
+              <span class="text-sm text-soft">🎨 Creative Design</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="message">Tell me more</label>
+          <textarea id="message" name="message" rows="4" class="form-input" placeholder="Project details, timeline, questions — anything 💛"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message 💌</button>
+      </form>
+    </div>
+
+    <p class="note-text mt-6">📍 Iloilo City, Philippines · UTC+8 · Worldwide<br>Replies within 24 hours · Thank you for reaching out!</p>
+  </div>
+</section>
+
+<footer class="text-center text-sm text-soft pb-6">
+  <p>© 2026 Caryll Kayn Tenasas · Made with 💛</p>
+</footer>
+
+<script>
+function toggleDD(id){
+  const wrap=document.getElementById(id);
+  wrap.classList.toggle('dropdown-open');
+  const content=wrap.querySelector('.dropdown-content');
+  
+  if(wrap.classList.contains('dropdown-open')){
+    content.style.maxHeight=content.scrollHeight+'px';
+    if(id==='scheduleDD'){
+      document.querySelectorAll('#scheduleList .check-item').forEach((item,i)=>{
+        item.classList.remove('visible');
+        setTimeout(()=>item.classList.add('visible'),150*(i+1));
+      });
+    }
+    if(id==='eduDD'){
+      document.querySelectorAll('#eduList .check-item').forEach((item,i)=>{
+        item.classList.remove('visible');
+        setTimeout(()=>item.classList.add('visible'),120*(i+1));
+      });
+    }
+  }else{
+    content.style.maxHeight='0';
+  }
+}
+
+function updateBar(){
+  const t=window.scrollY||0,h=document.documentElement.scrollHeight-window.innerHeight;
+  if(h>0)document.getElementById('pgBar').style.width=(t/h)*100+'%';
+}
+window.addEventListener('scroll',updateBar);
+window.addEventListener('load',updateBar);
+
+const faBtn=document.getElementById('faBtn');
+let lastY=window.scrollY;
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;
+  if(y>lastY && y>100){
+    faBtn.classList.remove('down');faBtn.classList.add('up');
+    faBtn.innerHTML='<i class="fa fa-chevron-up"></i>';faBtn.setAttribute('href','#top');
+  }else if(y<lastY && y<h-120){
+    faBtn.classList.remove('up');faBtn.classList.add('down');
+    faBtn.innerHTML='<i class="fa fa-chevron-down"></i>';faBtn.setAttribute('href','#contact-bottom');
+  }
+  lastY=y;
+});
+
+const mMenu=document.getElementById('mMenu'),menuBtn=document.getElementById('menuBtn'),closeMenu=document.getElementById('closeMenu');
+menuBtn.onclick=()=>mMenu.classList.remove('hidden');
+closeMenu.onclick=()=>mMenu.classList.add('hidden');
+mMenu.querySelectorAll('a').forEach(l=>l.onclick=()=>mMenu.classList.add('hidden'));
+
+// === PIE CHART ANIMATION ===
+const pieObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('animated');
+      pieObs.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+const pieEl=document.getElementById('skillPie');
+if(pieEl)pieObs.observe(pieEl);
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      if(e.target.classList.contains('timeline')){
+        e.target.querySelectorAll('.tl-item').forEach((it,i)=>setTimeout(()=>it.classList.add('visible'),i*180));
+      }
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.fade, .timeline').forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>
 
